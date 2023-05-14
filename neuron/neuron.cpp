@@ -2,6 +2,7 @@
 #include <stdexcept>
 #include <cstdlib>
 #include <ctime>
+#include <math.h>
 #include "../vector-operations/vector-operations.hpp" 
 
 class Neuron {
@@ -25,7 +26,7 @@ class Neuron {
             bias = initialized_bias;
         }
 
-        int predict(std::vector<double> inputs) {
+        double predict(std::vector<double> inputs) {
             return activation(inputs);
         }
     
@@ -33,15 +34,36 @@ class Neuron {
         std::vector<double> weights;
         double bias;
 
-        int activation(std::vector<double> inputs) {
+        double activation(std::vector<double> inputs) {
             double sum_result = dot_product(weights, inputs);
-            return heaviside_step(sum_result + bias);
+            return sigmoid(sum_result + bias);
         }
 
-        int heaviside_step(double input) {
+        double sigmoid(double input) {
+           return 1/(1+exp(-input));     
+        }
+
+        double sigmoidDerivative(double input) {
+            return sigmoid(input)*(1-sigmoid(input);    
+        }
+
+        void adjustWeights(std::vector<int> inputs, int expectedNeuronOutput, double actualNeuronOutput, double learningRate) {
+            int i = 0;
+            for (double weight:weights) {
+                double weightedSum = dot_product(weights, inputs);
+                double evaluatedDerivative = sigmoidDerivative(weightedSum);
+                double outputDifference = (expectedNeuronOutput - actualNeuronOutput);
+                double delta = learningRate * outputDifference * evaluatedDerivative * inputs
+                //todo add the rest of delta rule
+            }
+        }
+
+        /*int heaviside_step(double input) {
             if (input > 0) {
                 return 1;
             }  
             return 0;
-        }
+        }*/
+
+        
 };
