@@ -3,7 +3,7 @@
 #include <cstdlib>
 #include <ctime>
 #include <math.h>
-// #include "../vector-operations/vector-operations.hpp" 
+#include "../vector-operations/vector-operations.hpp" 
 
 class Neuron {
     public:
@@ -30,7 +30,7 @@ class Neuron {
             return activation(inputs);
         }
     
-        void train(std::vector<int> inputs, int expectedNeuronOutput, double actualNeuronOutput, double learningRate) {
+        void train(std::vector<double> inputs, int expectedNeuronOutput, double actualNeuronOutput, double learningRate) {
             int i = 0;
             for (double weight:weights) {
                 double netInput = dot_product(weights, inputs);
@@ -57,7 +57,7 @@ class Neuron {
         }
 
         double sigmoidDerivative(double input) {
-            return sigmoid(input)*(1-sigmoid(input);    
+            return sigmoid((input)*(1-sigmoid(input)));    
         }
 
         void adjustWeights(std::vector<double> delta) {

@@ -27,8 +27,9 @@ std::vector<double> add_vector(std::vector<double> a, std::vector<double> b) {
         throw std::invalid_argument("Vector dimensions do not match");
     }
     std::vector<double> result;
+    int i = 0;
     for (double num : a) {
-       result.push_back(a+b); 
+       result.push_back(num + b.at(i)); 
     }
     return result;
 }

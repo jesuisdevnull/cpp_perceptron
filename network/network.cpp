@@ -14,15 +14,15 @@ class SingleLayerNeuralNetwork {
 	    learningRate = learningRateInitializer;
         } 
 
-    std::vector<double> predict(std::vector<double> input, bool isTraining) {
+    std::vector<double> predict(std::vector<double> input) {
             std::vector<double> networkOutput;
             for(Neuron neuron:neurons) {
                 double neuronOutput = neuron.predict(input);
                 networkOutput.push_back(neuronOutput);
             }
-            if(isTraining) {
+            /* if(isTraining) {
                 trainNeurons(input, networkOutput);    
-            }
+            }*/
             return networkOutput;
         }
 
@@ -30,7 +30,7 @@ class SingleLayerNeuralNetwork {
 	std::vector<Neuron> neurons;
 	double learningRate;
 
-    void trainNeurons(std::vector<int> inputs,  std::vector<int> expectedOutput, std::vector<int> actualOutput) {
+    void trainNeurons(std::vector<double> inputs, std::vector<double> expectedOutput, std::vector<double> actualOutput) {
         int i = 0;
         for(Neuron neuron:neurons) {
             int expectedNeuronOutput = expectedOutput.at(i);
