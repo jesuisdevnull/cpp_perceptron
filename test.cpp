@@ -1,8 +1,6 @@
 #include <vector>
 #include <iostream>
-#include "vector-operations/vector-operations.hpp"
 #include "network/network.cpp"
-
 
 void printVector(std::vector<double> vec);
 void printVector(std::vector<int> vec);
@@ -17,7 +15,7 @@ int main() {
     */
     SingleLayerNeuralNetwork nn = SingleLayerNeuralNetwork(3*3, 5, 0.5);    
     std::vector<double> input {1,1,1,0,1,0,0,1,0};
-    std::vector<int> output = nn.predict(input); 
+    std::vector<int> output = nn.predict(input, false); 
     std::cout << "Input to Neural Network: ";
     printVector(input); 
     std::cout << "Output: ";

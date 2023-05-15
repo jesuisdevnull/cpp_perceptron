@@ -3,7 +3,7 @@
 #include <cstdlib>
 #include <ctime>
 #include <math.h>
-#include "../vector-operations/vector-operations.hpp" 
+// #include "../vector-operations/vector-operations.hpp" 
 
 class Neuron {
     public:
@@ -30,6 +30,19 @@ class Neuron {
             return activation(inputs);
         }
     
+        void train(std::vector<int> inputs, int expectedNeuronOutput, double actualNeuronOutput, double learningRate) {
+            int i = 0;
+            for (double weight:weights) {
+                double netInput = dot_product(weights, inputs);
+                double evaluatedDerivative = sigmoidDerivative(netInput);
+                double outputDifference = (expectedNeuronOutput - actualNeuronOutput);
+                // Oh, this updates the weights all at once! That makes sense. It's scalar-vector product.
+                double scalar = learningRate * outputDifference * evaluatedDerivative;
+                std::vector<double> deltaWeights = scale_vector(inputs, scalar);
+                adjustWeights(deltaWeights);
+            }
+        }
+
     private:
         std::vector<double> weights;
         double bias;
@@ -47,16 +60,11 @@ class Neuron {
             return sigmoid(input)*(1-sigmoid(input);    
         }
 
-        void adjustWeights(std::vector<int> inputs, int expectedNeuronOutput, double actualNeuronOutput, double learningRate) {
-            int i = 0;
-            for (double weight:weights) {
-                double weightedSum = dot_product(weights, inputs);
-                double evaluatedDerivative = sigmoidDerivative(weightedSum);
-                double outputDifference = (expectedNeuronOutput - actualNeuronOutput);
-                double delta = learningRate * outputDifference * evaluatedDerivative * inputs
-                //todo add the rest of delta rule
-            }
+        void adjustWeights(std::vector<double> delta) {
+            std::vector<double> adjustedWeights = add_vector(weights, delta);
+            weights = adjustedWeights;    
         }
+
 
         /*int heaviside_step(double input) {
             if (input > 0) {
