@@ -40,11 +40,26 @@ class SingleLayerNeuralNetwork {
 
     std::vector<double> predictWithTraining(std::vector<double> input,std::vector<double> expectedOutput) {
 	std::vector<double> networkOutput;
-        for(Neuron neuron:neurons) {
-        double neuronOutput = neuron.predict(input);
+        printWeights();  
+        int i = 0;
+        for(Neuron& neuron:neurons) {
+             double neuronOutput = neuron.predict(input);
+             std::cout << "Neuron " << i << " weights: \n";
+             neuron.printWeights();
+             std::cout << "Input: ";
+             printVector(input); 
+             std::cout << "Expected output ";
+             std::cout << expectedOutput.at(i) << "\n"; 
+             std::cout << "Actual output: ";
+             std::cout << neuronOutput << "\n\n"; 
              networkOutput.push_back(neuronOutput);
-	}
-	trainNeurons(input, expectedOutput, networkOutput);    
+	     i++;
+        }
+        
+	
+        trainNeurons(input, expectedOutput, networkOutput);    
+        
+        printWeights();
         return networkOutput;
     }
 
@@ -53,15 +68,20 @@ class SingleLayerNeuralNetwork {
 	double learningRate;
 
     void trainNeurons(std::vector<double> inputs, std::vector<double> expectedOutput, std::vector<double> actualOutput) {
+        
+        std::cout << "Neural Network Input: ";
+        printVector(inputs); 
+        std::cout << "Neural Network Expected Output:  ";
+        printVector(expectedOutput); 
+        std::cout << "Neural Network Actual Output:  "; 
+        printVector(actualOutput); 
+        
         int i = 0;
         for(Neuron& neuron:neurons) {
-            int expectedNeuronOutput = expectedOutput.at(i);
-            int actualNeuronOutput = actualOutput.at(i);
-	    std::cout<<"Neuron "<< i << " before adjustment: ";
-	    neuron.printWeights();
+                std::cout << "Training neuron " << i+1 << "\n";
+            double expectedNeuronOutput = expectedOutput.at(i);
+            double actualNeuronOutput = actualOutput.at(i);
 	    neuron.train(inputs, expectedNeuronOutput, actualNeuronOutput, learningRate);
-            std::cout<<"Neuron "<< i << " after adjustment: ";
-	    neuron.printWeights();
             i++;
 	}    
     }

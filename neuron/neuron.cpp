@@ -9,15 +9,15 @@ class Neuron {
     public:
         Neuron(int numberOfInputs) {
             for (int i = 0; i < numberOfInputs; i++) {
-                int randomWeight = rand() % 100 + 1;
+                int randomWeight = rand() % 10 + 1;
                 weights.push_back(randomWeight);
-                bias = rand() % 100 + 1;
+                bias = 0;
             }
         }
 
         Neuron(std::vector<double> initialized_weights) {
             weights = initialized_weights;
-            bias = rand() % 100+1;   
+            bias = 0;   
         }
 
         Neuron(std::vector<double> initialized_weights, double initialized_bias) {
@@ -33,17 +33,34 @@ class Neuron {
             return activation(inputs);
         }
     
-        void train(std::vector<double> inputs, int expectedNeuronOutput, double actualNeuronOutput, double learningRate) {
+        void train(std::vector<double> inputs, double expectedNeuronOutput, double actualNeuronOutput, double learningRate) {
             int i = 0;
             std::vector<double> deltaWeights;
+            double net = dot_product(weights, inputs);
+            double evaluatedDerivative = sigmoidDerivative(net);
+            double outputDifference = (expectedNeuronOutput - actualNeuronOutput);
+            double scalar = learningRate * outputDifference * evaluatedDerivative;
+            
+            std::cout << "Learning rate: " << learningRate	<< "\n";
+            std::cout << "Expected output " << expectedNeuronOutput	<< "\n";
+            std::cout << "Actual neuron output: " << actualNeuronOutput  << "\n"; 
+            std::cout << "Output difference " << outputDifference << "\n";
+            std::cout << "Net input: " << net << "\n";
+            std::cout << "Evaluated derivative: " << evaluatedDerivative << "\n";
+            
             for (double weight:weights) {
-                double outputDifference = (expectedNeuronOutput - actualNeuronOutput);
-                double scalar = learningRate * outputDifference;
 		double input = inputs.at(i);
 		double individualWeightDifference = scalar * input;
-		deltaWeights.push_back(individualWeightDifference);
+                std::cout << "Calculating adjustment for weight" << i+1 << "...\n";
+                std::cout << "Input " << i << "for this neuron: " << input << "\n"; 
+                std::cout << "Final multiplication: " << scalar << "*" << input << "\n";
+                std::cout << "Delta weight for weight " << i+1 << ": " << individualWeightDifference << "\n\n";
+                 
+                deltaWeights.push_back(individualWeightDifference);
 		i++;
             }
+            std::cout << "Delta weight matrix: ";
+            printVector(deltaWeights); 
             adjustWeights(deltaWeights);
         }
 
@@ -67,7 +84,6 @@ class Neuron {
         void adjustWeights(std::vector<double> delta) {
             std::vector<double> adjustedWeights = add_vector(weights, delta);
             weights = adjustedWeights;    
-	    printVector(weights);
         }
 
 
