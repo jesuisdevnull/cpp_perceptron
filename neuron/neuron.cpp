@@ -33,33 +33,31 @@ class Neuron {
             return activation(inputs);
         }
     
-        void train(std::vector<double> inputs, double expectedNeuronOutput, double actualNeuronOutput, double learningRate) {
-            int i = 0;
-            std::vector<double> deltaWeights;
+        void train(int neuronId, std::vector<double> inputs,double error, double learningRate) {
+            /*
             double net = dot_product(weights, inputs);
-            double evaluatedDerivative = sigmoidDerivative(net);
-            double outputDifference = (expectedNeuronOutput - actualNeuronOutput);
-            double scalar = learningRate * outputDifference * evaluatedDerivative;
-            
             std::cout << "Learning rate: " << learningRate	<< "\n";
             std::cout << "Expected output " << expectedNeuronOutput	<< "\n";
             std::cout << "Actual neuron output: " << actualNeuronOutput  << "\n"; 
             std::cout << "Output difference " << outputDifference << "\n";
             std::cout << "Net input: " << net << "\n";
             std::cout << "Evaluated derivative: " << evaluatedDerivative << "\n";
-            
+            */
+            double learningTimesError = learningRate * error; // * evaluatedDerivative;
+            std::vector<double> deltaWeights;
+            int i = 0;
             for (double weight:weights) {
 		double input = inputs.at(i);
-		double individualWeightDifference = scalar * input;
-                std::cout << "Calculating adjustment for weight" << i+1 << "...\n";
-                std::cout << "Input " << i << "for this neuron: " << input << "\n"; 
-                std::cout << "Final multiplication: " << scalar << "*" << input << "\n";
+		double individualWeightDifference = learningTimesError * input;
+                std::cout << "Calculating adjustment for weight " << i+1 << "...\n";
+                std::cout << "Input " << i << " for weight " << i+1 <<": " << input << "\n"; 
+                std::cout << "Final multiplication: " << learningTimesError  << "*" << input << "\n";
                 std::cout << "Delta weight for weight " << i+1 << ": " << individualWeightDifference << "\n\n";
                  
                 deltaWeights.push_back(individualWeightDifference);
 		i++;
             }
-            std::cout << "Delta weight matrix: ";
+            std::cout << "Delta weight matrix for neuron " << i <<":\n";
             printVector(deltaWeights); 
             adjustWeights(deltaWeights);
         }

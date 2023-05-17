@@ -1,7 +1,7 @@
 #include <vector>
 #include "../vector-operations/vector-operations.hpp"
 #include "../neuron/neuron.cpp"
-
+#include <cmath>
 #include <stdexcept>
 #include <iostream>
 
@@ -13,6 +13,7 @@ class SingleLayerNeuralNetwork {
 		neurons.push_back(neuron);
 	    }
 	    learningRate = learningRateInitializer;
+            errorMargin = 0.05;
         }
 
 	void printWeights() {
@@ -23,7 +24,7 @@ class SingleLayerNeuralNetwork {
 		neur.printWeights();
 		i++;
 	    }
-	    std::cout << "\n ";
+	    std::cout << "\n";
 	}
 
     std::vector<double> predict(std::vector<double> input) {
@@ -32,9 +33,6 @@ class SingleLayerNeuralNetwork {
                 double neuronOutput = neuron.predict(input);
                 networkOutput.push_back(neuronOutput);
             }
-            /* if(isTraining) {
-                trainNeurons(input, networkOutput);    
-            }*/
             return networkOutput;
         }
 
@@ -43,8 +41,8 @@ class SingleLayerNeuralNetwork {
         printWeights();  
         int i = 0;
         for(Neuron& neuron:neurons) {
-             double neuronOutput = neuron.predict(input);
-             std::cout << "Neuron " << i << " weights: \n";
+             double neuronOutput = round(neuron.predict(input));
+             std::cout << "Neuron " << i << " weights:";
              neuron.printWeights();
              std::cout << "Input: ";
              printVector(input); 
@@ -54,9 +52,7 @@ class SingleLayerNeuralNetwork {
              std::cout << neuronOutput << "\n\n"; 
              networkOutput.push_back(neuronOutput);
 	     i++;
-        }
-        
-	
+        } 	
         trainNeurons(input, expectedOutput, networkOutput);    
         
         printWeights();
@@ -66,22 +62,30 @@ class SingleLayerNeuralNetwork {
     private:
 	std::vector<Neuron> neurons;
 	double learningRate;
+        double errorMargin;
 
     void trainNeurons(std::vector<double> inputs, std::vector<double> expectedOutput, std::vector<double> actualOutput) {
-        
-        std::cout << "Neural Network Input: ";
-        printVector(inputs); 
-        std::cout << "Neural Network Expected Output:  ";
-        printVector(expectedOutput); 
-        std::cout << "Neural Network Actual Output:  "; 
-        printVector(actualOutput); 
-        
+        /*
+            std::cout << "Neural Network Input: ";
+            printVector(inputs); 
+            std::cout << "Neural Network Expected Output:  ";
+            printVector(expectedOutput); 
+            std::cout << "Neural Network Actual Output:  "; 
+            printVector(actualOutput); 
+        */
         int i = 0;
         for(Neuron& neuron:neurons) {
-                std::cout << "Training neuron " << i+1 << "\n";
+            int neuronId = i + 1;
             double expectedNeuronOutput = expectedOutput.at(i);
             double actualNeuronOutput = actualOutput.at(i);
-	    neuron.train(inputs, expectedNeuronOutput, actualNeuronOutput, learningRate);
+	    double error = expectedNeuronOutput - actualNeuronOutput;
+            double absoluteError = abs(error);
+            if(absoluteError > errorMargin) {
+                std::cout << "Training neuron " << neuronId << " (absolute error was " << absoluteError << ")\n";
+                neuron.train(neuronId, inputs, error, learningRate);
+            } else { 
+                std::cout << "No need to train neuron " << neuronId << " (absolute error was " << absoluteError << ")\n";
+            }
             i++;
 	}    
     }
