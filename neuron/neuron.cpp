@@ -49,16 +49,16 @@ class Neuron {
             for (double weight:weights) {
 		double input = inputs.at(i);
 		double individualWeightDifference = learningTimesError * input;
-                std::cout << "Calculating adjustment for weight " << i+1 << "...\n";
+ /*               std::cout << "Calculating adjustment for weight " << i+1 << "...\n";
                 std::cout << "Input " << i << " for weight " << i+1 <<": " << input << "\n"; 
                 std::cout << "Final multiplication: " << learningTimesError  << "*" << input << "\n";
                 std::cout << "Delta weight for weight " << i+1 << ": " << individualWeightDifference << "\n\n";
-                 
+   */              
                 deltaWeights.push_back(individualWeightDifference);
 		i++;
             }
-            std::cout << "Delta weight matrix for neuron " << i <<":\n";
-            printVector(deltaWeights); 
+     //       std::cout << "Delta weight matrix for neuron " << i <<":\n";
+      //      printVector(deltaWeights); 
             adjustWeights(deltaWeights);
         }
 

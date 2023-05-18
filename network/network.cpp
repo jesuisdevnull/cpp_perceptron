@@ -38,24 +38,24 @@ class SingleLayerNeuralNetwork {
 
     std::vector<double> predictWithTraining(std::vector<double> input,std::vector<double> expectedOutput) {
 	std::vector<double> networkOutput;
-        printWeights();  
+//        printWeights();  
         int i = 0;
         for(Neuron& neuron:neurons) {
              double neuronOutput = round(neuron.predict(input));
-             std::cout << "Neuron " << i << " weights:";
-             neuron.printWeights();
-             std::cout << "Input: ";
-             printVector(input); 
-             std::cout << "Expected output ";
-             std::cout << expectedOutput.at(i) << "\n"; 
-             std::cout << "Actual output: ";
-             std::cout << neuronOutput << "\n\n"; 
+           //  std::cout << "Neuron " << i << " weights:";
+          //   neuron.printWeights();
+          //   std::cout << "Input: ";
+          //   printVector(input); 
+         //    std::cout << "Expected output ";
+           //  std::cout << expectedOutput.at(i) << "\n"; 
+           //  std::cout << "Actual output: ";
+           //  std::cout << neuronOutput << "\n\n"; 
              networkOutput.push_back(neuronOutput);
 	     i++;
         } 	
         trainNeurons(input, expectedOutput, networkOutput);    
         
-        printWeights();
+        //printWeights();
         return networkOutput;
     }
 
