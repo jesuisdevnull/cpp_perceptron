@@ -4,12 +4,14 @@
 #include <math.h>
 #include <iostream>
 #include "../vector-operations/vector-operations.hpp" 
+#include <random>
+
 
 class Neuron {
     public:
-        Neuron(int numberOfInputs) {
+        Neuron(int numberOfInputs, std::mt19937 gen, std::uniform_real_distribution<> dis) {
             for (int i = 0; i < numberOfInputs; i++) {
-                int randomWeight = rand() % 10 + 1;
+                double randomWeight = dis(gen);
                 weights.push_back(randomWeight);
                 bias = 0;
             }

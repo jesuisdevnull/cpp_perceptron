@@ -1,15 +1,19 @@
 #include <vector>
 #include "../vector-operations/vector-operations.hpp"
 #include "../neuron/neuron.cpp"
+#include <random>
 #include <cmath>
 #include <stdexcept>
 #include <iostream>
 
 class SingleLayerNeuralNetwork {
     public:
-        SingleLayerNeuralNetwork(int numberOfInputs, int numberOfNeurons, double learningRateInitializer) {
-            for(int i = 0; i < numberOfNeurons; i++) {
-                Neuron neuron = Neuron(numberOfInputs);
+        SingleLayerNeuralNetwork(int numberOfInputs, int numberOfNeurons, double learningRateInitializer) { 
+    	    std::random_device rd;  // Will be used to obtain a seed for the random number engine
+    	    std::mt19937 gen(rd()); // Standard mersenne_twister_engine seeded with rd()
+   	    std::uniform_real_distribution<> dis(-3.0, 3.0);
+	    for(int i = 0; i < numberOfNeurons; i++) {
+                Neuron neuron = Neuron(numberOfInputs,gen,dis);
 		neurons.push_back(neuron);
 	    }
 	    learningRate = learningRateInitializer;

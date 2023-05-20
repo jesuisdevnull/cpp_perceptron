@@ -8,7 +8,6 @@
 
 
 int main() {
-    
     std::vector<std::string> filenames = {"bit-arrays/a.txt","bit-arrays/e.txt","bit-arrays/i.txt","bit-arrays/o.txt","bit-arrays/u.txt"}; 
     std::vector<std::vector<std::vector<double>>> vec = read_files(filenames); 
     srand(time(0));
@@ -27,9 +26,10 @@ int main() {
             std::vector<double> output = nn.predictWithTraining(labeledV.at(0), labeledV.at(1)); 
         }
         j++;
-        if(j > 150) {
-            process=false;
+        if(j > 100*6) {
+            process = false;
         }
     }
     nn.printWeights();
+    return 1;
 }
