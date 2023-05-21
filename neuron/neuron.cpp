@@ -1,12 +1,14 @@
+#include "../vector-operations/vector-operations.hpp" 
 #include <vector>
 #include <stdexcept>
 #include <cstdlib>
 #include <math.h>
 #include <iostream>
-#include "../vector-operations/vector-operations.hpp" 
 #include <random>
+#include <string>
 
-
+#ifndef NEUR_H
+#define NEUR_H
 class Neuron {
     public:
         Neuron(int numberOfInputs, std::mt19937 gen, std::uniform_real_distribution<> dis) {
@@ -64,6 +66,17 @@ class Neuron {
             adjustWeights(deltaWeights);
         }
 
+        std::string getSerializableRepresentation() {
+		std::string rep;
+		rep.append(std::to_string(bias));
+		rep.append("\n");
+		for (auto weight:weights) {
+		    rep.append(std::to_string(weight));
+		    rep.append(" ");
+		}
+		return rep;
+	}	
+
     private:
         std::vector<double> weights;
         double bias;
@@ -96,3 +109,4 @@ class Neuron {
 
         
 };
+#endif

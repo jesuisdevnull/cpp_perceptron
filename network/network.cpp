@@ -1,11 +1,15 @@
-#include <vector>
 #include "../vector-operations/vector-operations.hpp"
 #include "../neuron/neuron.cpp"
+
 #include <random>
+#include <vector>
 #include <cmath>
 #include <stdexcept>
 #include <iostream>
+#include <fstream>
 
+#ifndef NET_H
+#define NET_H
 class SingleLayerNeuralNetwork {
     public:
         SingleLayerNeuralNetwork(int numberOfInputs, int numberOfNeurons, double learningRateInitializer) { 
@@ -20,10 +24,16 @@ class SingleLayerNeuralNetwork {
             errorMargin = 0.05;
         }
 
+	SingleLayerNeuralNetwork(std::vector<Neuron> initializedNeurons, double initializedLearningRate, double initializedErrorMargin) {
+		neurons = initializedNeurons;
+		learningRate = initializedLearningRate;
+		errorMargin = initializedErrorMargin;
+	}
+
 	void printWeights() {
 	    std::cout << "NEURAL NETWORK WEIGHTS\n\n";
 	    int i = 1;
-	    for(Neuron neur:neurons) {
+	    for(Neuron& neur:neurons) {
 		std::cout << "NEUR" << i << " ";
 		neur.printWeights();
 		i++;
@@ -45,7 +55,7 @@ class SingleLayerNeuralNetwork {
 //        printWeights();  
         int i = 0;
         for(Neuron& neuron:neurons) {
-             double neuronOutput = round(neuron.predict(input));
+             double neuronOutput = neuron.predict(input); //round(neuron.predict(input));
            //  std::cout << "Neuron " << i << " weights:";
           //   neuron.printWeights();
           //   std::cout << "Input: ";
@@ -61,6 +71,25 @@ class SingleLayerNeuralNetwork {
         
         //printWeights();
         return networkOutput;
+    }
+
+    bool saveKnowledge(std::string filepath) {
+	    std::ofstream outputFile;
+	    outputFile.open(filepath);
+	    if(outputFile.is_open()) {
+		outputFile << std::to_string(learningRate) << "\n";
+		outputFile << std::to_string(errorMargin) << "\n"; 
+		int i = 0;
+		for(Neuron& neuron:neurons) {
+		    outputFile << neuron.getSerializableRepresentation();
+		    if (i < neurons.size()-1) {
+                        outputFile << "\n";
+		    }
+		}
+		outputFile.close();
+		return true;
+	    }
+            return false;
     }
 
     private:
@@ -94,3 +123,4 @@ class SingleLayerNeuralNetwork {
 	}    
     }
 };
+#endif

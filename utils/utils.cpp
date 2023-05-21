@@ -1,4 +1,6 @@
 #include "./utils.hpp"
+#include "../network/network.cpp"
+#include "../neuron/neuron.cpp"
 #include <iostream>
 #include <fstream>
 #include <vector>
@@ -48,3 +50,44 @@ std::vector<std::vector<std::vector<double>>> read_files(std::vector<std::string
 }
 
 
+SingleLayerNeuralNetwork read_knowledge_base(std::string filepath) {
+    std::ifstream myfile;
+    myfile.open(filepath);
+    if(myfile.is_open()) {
+        std::cout << "File is open!" << "\n";
+        double learningRate;
+	double errorMargin;
+	std::string line;
+	
+	getline(myfile, line);
+        std::stringstream learningRateStringStream(line);
+	learningRateStringStream >> learningRate;;
+
+	getline(myfile, line);
+        std::stringstream errorMarginStringStream(line);
+        errorMarginStringStream >> errorMargin;
+
+	std::vector<Neuron> neurons;
+	double num;
+	while (getline(myfile, line)) { 
+	     double bias;
+	     std::vector<double> weights;
+
+	     std::stringstream biasStringStream(line);
+             biasStringStream >> bias;
+             
+             getline(myfile, line);
+      	     std::stringstream weightsStringStream(line);
+	     while (weightsStringStream >> num) {
+                 weights.push_back(num);
+	     }
+             Neuron neuron = Neuron(weights, bias);
+             neurons.push_back(neuron);
+	}
+        myfile.close();
+	SingleLayerNeuralNetwork nn = SingleLayerNeuralNetwork(neurons,learningRate, errorMargin);
+	return nn;
+    } else { 
+        throw "Couldn't open file.";
+    }
+}
