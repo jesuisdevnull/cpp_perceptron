@@ -9,34 +9,26 @@
 #include <fstream>
 
 int main() {
-    /*
+    
     std::vector<std::string> filenames = {"bit-arrays/a.txt","bit-arrays/e.txt","bit-arrays/i.txt","bit-arrays/o.txt","bit-arrays/u.txt"}; 
-    std::vector<std::vector<std::vector<double>>> vec = read_files(filenames); 
+    std::vector<std::vector<std::vector<double>>> vec = read_training_files(filenames); 
     srand(time(0));
     bool process = true;
     int i = 0;
     int j = 0;
-    */
     std::ifstream base;
-     
+    SingleLayerNeuralNetwork* nnp; 
     base.open("base.txt");
     if (base.is_open()) {
 	base.close();
 	std::cout << "Found knowledge base! loading..."  << "\n";
-      SingleLayerNeuralNetwork nn = read_knowledge_base("base.txt");
-    nn.printWeights();
+    nnp = read_knowledge_base("base.txt");
     } else {
 	std::cout << "Creating neural network from scratch..."  << "\n";
-        SingleLayerNeuralNetwork nn = SingleLayerNeuralNetwork(160, 5, 0.05); 
+        nnp = new SingleLayerNeuralNetwork(160, 5, 0.05); 
+    }
+    SingleLayerNeuralNetwork nn = *nnp; 
     nn.printWeights();
-    }
-    /*
-    bool result = nn.saveKnowledge("base.txt");
-    if (result) { 
-	std::cout << "Saved knowledge!"  << "\n";
-    } else {
-	std::cout << "Couldn't save knowledge"  << "\n";
-    }
     
     while(process) {
         for (auto labeledV : vec) {
@@ -48,10 +40,17 @@ int main() {
             std::vector<double> output = nn.predictWithTraining(labeledV.at(0), labeledV.at(1)); 
         }
         j++;
-        if(j > 100*6) {
+        if(j > 100) {
             process = false;
         }
+    	bool result = nn.saveKnowledge("base.txt");
+    	if (result) { 
+		std::cout << "Saved knowledge!"  << "\n";
+    	} else {
+		std::cout << "Couldn't save knowledge"  << "\n";
+    	}
     }
-    */
+    
+    delete(nnp);
     return 1;
 }

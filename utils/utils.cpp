@@ -10,7 +10,7 @@
 #include <algorithm>
 #include <random>
 
-std::vector<std::vector<std::vector<double>>> read_files(std::vector<std::string> filepaths) { 
+std::vector<std::vector<std::vector<double>>> read_training_files(std::vector<std::string> filepaths) { 
     std::ifstream myfile;
     std::vector<std::vector<std::vector<double>>> result;
     for(auto filepath : filepaths) {       
@@ -50,7 +50,7 @@ std::vector<std::vector<std::vector<double>>> read_files(std::vector<std::string
 }
 
 
-SingleLayerNeuralNetwork read_knowledge_base(std::string filepath) {
+SingleLayerNeuralNetwork* read_knowledge_base(std::string filepath) {
     std::ifstream myfile;
     myfile.open(filepath);
     if(myfile.is_open()) {
@@ -85,7 +85,7 @@ SingleLayerNeuralNetwork read_knowledge_base(std::string filepath) {
              neurons.push_back(neuron);
 	}
         myfile.close();
-	SingleLayerNeuralNetwork nn = SingleLayerNeuralNetwork(neurons,learningRate, errorMargin);
+	SingleLayerNeuralNetwork* nn = new SingleLayerNeuralNetwork(neurons,learningRate, errorMargin);
 	return nn;
     } else { 
         throw "Couldn't open file.";
