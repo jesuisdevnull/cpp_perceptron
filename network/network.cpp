@@ -44,7 +44,7 @@ class SingleLayerNeuralNetwork {
     std::vector<double> predict(std::vector<double> input) {
             std::vector<double> networkOutput;
             for(Neuron neuron:neurons) {
-                double neuronOutput = neuron.predict(input);
+                double neuronOutput =round(neuron.predict(input));
                 networkOutput.push_back(neuronOutput);
             }
             return networkOutput;
@@ -55,7 +55,7 @@ class SingleLayerNeuralNetwork {
 //        printWeights();  
         int i = 0;
         for(Neuron& neuron:neurons) {
-             double neuronOutput = neuron.predict(input); //round(neuron.predict(input));
+             double neuronOutput = round(neuron.predict(input)); //round(neuron.predict(input));
            //  std::cout << "Neuron " << i << " weights:";
           //   neuron.printWeights();
           //   std::cout << "Input: ";

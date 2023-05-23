@@ -11,7 +11,7 @@
 #define NEUR_H
 class Neuron {
     public:
-        Neuron(int numberOfInputs, std::mt19937 gen, std::uniform_real_distribution<> dis) {
+        Neuron(int numberOfInputs, std::mt19937& gen, std::uniform_real_distribution<>& dis) {
             for (int i = 0; i < numberOfInputs; i++) {
                 double randomWeight = dis(gen);
                 weights.push_back(randomWeight);
