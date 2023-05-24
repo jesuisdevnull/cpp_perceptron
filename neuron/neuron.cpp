@@ -53,16 +53,15 @@ class Neuron {
             for (double weight:weights) {
 		double input = inputs.at(i);
 		double individualWeightDifference = learningTimesError * input;
- /*               std::cout << "Calculating adjustment for weight " << i+1 << "...\n";
-                std::cout << "Input " << i << " for weight " << i+1 <<": " << input << "\n"; 
-                std::cout << "Final multiplication: " << learningTimesError  << "*" << input << "\n";
-                std::cout << "Delta weight for weight " << i+1 << ": " << individualWeightDifference << "\n\n";
-   */              
+//                std::cout << "Calculating adjustment for weight " << i+1 << "...\n";
+//                std::cout << "Input " << i << " for weight " << i+1 <<": " << input << "\n"; 
+  //              std::cout << "Final multiplication: " << learningTimesError  << "*" << input << "\n";
+    //            std::cout << "Delta weight for weight " << i+1 << ": " << individualWeightDifference << "\n\n";           
                 deltaWeights.push_back(individualWeightDifference);
 		i++;
             }
-     //       std::cout << "Delta weight matrix for neuron " << i <<":\n";
-      //      printVector(deltaWeights); 
+            std::cout << "Delta weight matrix for neuron " << i <<":\n";
+            printVector(deltaWeights); 
             adjustWeights(deltaWeights);
         }
 
@@ -84,6 +83,7 @@ class Neuron {
         double activation(std::vector<double> inputs) {
             double sum_result = dot_product(weights, inputs);
             return sigmoid(sum_result + bias);
+           // return heaviside_step(sum_result);   
         }
 
         double sigmoid(double input) {
@@ -100,12 +100,12 @@ class Neuron {
         }
 
 
-        /*int heaviside_step(double input) {
+        int heaviside_step(double input) {
             if (input > 0) {
                 return 1;
             }  
             return 0;
-        }*/
+        }
 
         
 };

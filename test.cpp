@@ -25,7 +25,7 @@ int main(int argc, char* argv[]) {
             nnp = read_knowledge_base("base.txt");
         } else {
 	    std::cout << "Creating neural network from scratch..."  << "\n";
-            nnp = new SingleLayerNeuralNetwork(160, 5, 0.05); 
+            nnp = new SingleLayerNeuralNetwork(160, 5, 0.07); 
         }
 
         SingleLayerNeuralNetwork nn = *nnp; 

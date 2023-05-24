@@ -15,7 +15,7 @@ class SingleLayerNeuralNetwork {
         SingleLayerNeuralNetwork(int numberOfInputs, int numberOfNeurons, double learningRateInitializer) { 
     	    std::random_device rd;  // Will be used to obtain a seed for the random number engine
     	    std::mt19937 gen(rd()); // Standard mersenne_twister_engine seeded with rd()
-   	    std::uniform_real_distribution<> dis(-3.0, 3.0);
+   	    std::uniform_real_distribution<> dis(-1.0, 1.0);
 	    for(int i = 0; i < numberOfNeurons; i++) {
                 Neuron neuron = Neuron(numberOfInputs,gen,dis);
 		neurons.push_back(neuron);
@@ -44,7 +44,7 @@ class SingleLayerNeuralNetwork {
     std::vector<double> predict(std::vector<double> input) {
             std::vector<double> networkOutput;
             for(Neuron neuron:neurons) {
-                double neuronOutput =round(neuron.predict(input));
+                double neuronOutput =neuron.predict(input);
                 networkOutput.push_back(neuronOutput);
             }
             return networkOutput;
