@@ -15,7 +15,7 @@ class SingleLayerNeuralNetwork {
         SingleLayerNeuralNetwork(int numberOfInputs, int numberOfNeurons, double learningRateInitializer) { 
     	    std::random_device rd;  // Will be used to obtain a seed for the random number engine
     	    std::mt19937 gen(rd()); // Standard mersenne_twister_engine seeded with rd()
-   	    std::uniform_real_distribution<> dis(-1.0, 1.0);
+   	    std::uniform_real_distribution<> dis(-0.5,0.5);
 	    for(int i = 0; i < numberOfNeurons; i++) {
                 Neuron neuron = Neuron(numberOfInputs,gen,dis);
 		neurons.push_back(neuron);
@@ -112,12 +112,11 @@ class SingleLayerNeuralNetwork {
             double expectedNeuronOutput = expectedOutput.at(i);
             double actualNeuronOutput = actualOutput.at(i);
 	    double error = expectedNeuronOutput - actualNeuronOutput;
-            double absoluteError = abs(error);
-            if(absoluteError > errorMargin) {
-                std::cout << "Training neuron " << neuronId << " (absolute error was " << absoluteError << ")\n";
+            if(error != 0) {
+                std::cout << "Training neuron " << neuronId << " (difference between outputs was " << error << ")\n";
                 neuron.train(neuronId, inputs, error, learningRate);
             } else { 
-                std::cout << "No need to train neuron " << neuronId << " (absolute error was " << absoluteError << ")\n";
+                std::cout << "No need to train neuron " << neuronId << " (difference between outputs was " << error << ")\n";
             }
             i++;
 	}    

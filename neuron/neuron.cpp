@@ -60,8 +60,8 @@ class Neuron {
                 deltaWeights.push_back(individualWeightDifference);
 		i++;
             }
-            std::cout << "Delta weight matrix for neuron " << i <<":\n";
-            printVector(deltaWeights); 
+            //std::cout << "Delta weight matrix for neuron " << i <<":\n";
+            //printVector(deltaWeights); 
             adjustWeights(deltaWeights);
         }
 

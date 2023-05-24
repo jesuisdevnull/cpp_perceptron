@@ -30,7 +30,8 @@ std::vector<double> add_vector(std::vector<double> a, std::vector<double> b) {
     std::vector<double> result;
     int i = 0;
     for (double num : a) {
-       result.push_back(num + b.at(i)); 
+       result.push_back(num + b.at(i));
+       i++;
     }
     return result;
 }
