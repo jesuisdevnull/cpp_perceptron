@@ -91,3 +91,29 @@ SingleLayerNeuralNetwork* read_knowledge_base(std::string filepath) {
         throw "Couldn't open file.";
     }
 }
+
+int find_max_index(std::vector<double> vec) {
+    double max = -999999;
+    int result = -1;
+    int i = 0;
+    for (auto num:vec) {
+	if (num > max) {
+            max = num;
+	    result = i;
+	}
+	i++;
+    }
+    return result;
+}
+
+std::string interpret_index(int i) {
+    switch(i) {
+        case 0: return "a";
+	case 1: return "e";
+	case 2: return "i";
+	case 3: return "o";
+	case 4: return "u";
+	default: return "No reconocido";
+
+    }
+} 

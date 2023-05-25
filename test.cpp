@@ -67,10 +67,8 @@ int main(int argc, char* argv[]) {
             std::vector<std::vector<std::vector<double>>> vec_tr = read_training_files(filenames_tr); 
    	    for(auto labeledV : vec_tr) {
 	        std::cout << "\nSample " << i+1  << "\n";
-	        std::cout << "Expected output" << "\n";
-	        printVector(labeledV.at(1));
-	        std::cout << "Actual output" << "\n";
-	        printVector(nn.predict(labeledV.at(0)));
+	        std::cout << "Label for this output: " << interpret_index(find_max_index(labeledV.at(1))) << "\n"; 
+	        std::cout << "Network thinks this is an: : " << interpret_index(find_max_index(nn.predict(labeledV.at(0)))) << "\n";
 	        i++;	    
 	    } 
         }   
