@@ -15,12 +15,12 @@ class SingleLayerNeuralNetwork {
         SingleLayerNeuralNetwork(int numberOfInputs, int numberOfNeurons, double learningRateInitializer) { 
     	    std::random_device rd;  // Will be used to obtain a seed for the random number engine
     	    std::mt19937 gen(rd()); // Standard mersenne_twister_engine seeded with rd()
-   	    std::uniform_real_distribution<> dis(-1.5,1.5);
-	    for(int i = 0; i < numberOfNeurons; i++) {
+   	        std::uniform_real_distribution<> dis(-3,3);
+	        for(int i = 0; i < numberOfNeurons; i++) {
                 Neuron neuron = Neuron(numberOfInputs,gen,dis);
-		neurons.push_back(neuron);
-	    }
-	    learningRate = learningRateInitializer;
+		    neurons.push_back(neuron);
+	        }
+	        learningRate = learningRateInitializer;
             errorMargin = 0.05;
         }
 
@@ -77,19 +77,19 @@ class SingleLayerNeuralNetwork {
 	    std::ofstream outputFile;
 	    outputFile.open(filepath);
 	    if(outputFile.is_open()) {
-		outputFile << std::to_string(learningRate) << "\n";
-		outputFile << std::to_string(errorMargin) << "\n"; 
-		int i = 0;
-		for(Neuron& neuron:neurons) {
-		    outputFile << neuron.getSerializableRepresentation();
-		    if (i < neurons.size()-1) {
-                        outputFile << "\n";
-		    }
-		}
-		outputFile.close();
-		return true;
+            outputFile << std::to_string(learningRate) << "\n";
+            outputFile << std::to_string(errorMargin) << "\n"; 
+            int i = 0;
+            for(Neuron& neuron:neurons) {
+                outputFile << neuron.getSerializableRepresentation();
+                if (i < neurons.size()-1) {
+                    outputFile << "\n";
+                }
+            }
+            outputFile.close();
+            return true;
 	    }
-            return false;
+        return false;
     }
 
     private:
