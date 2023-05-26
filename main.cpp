@@ -1,5 +1,3 @@
-/* Jesus Raziel Gonzalez Sosa, C.I. 28.074.361  */
-
 #include "vector-operations/vector-operations.hpp"
 #include "network/network.cpp"
 #include "utils/utils.hpp"

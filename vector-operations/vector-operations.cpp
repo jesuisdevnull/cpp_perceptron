@@ -14,15 +14,6 @@ double dot_product(std::vector<double> a, std::vector<double> b) {
     return result;
 }
 
-std::vector<double> scale_vector(std::vector<double> vec, double scalar) {
-    std::vector<double> scaledVector;
-    for(double num : vec) {
-        double scaled = num * scalar;
-        scaledVector.push_back(scaled);    
-    }
-    return scaledVector;
-}
-
 std::vector<double> add_vector(std::vector<double> a, std::vector<double> b) {
     if (a.size() != b.size()) {
         throw std::invalid_argument("Vector dimensions do not match");
