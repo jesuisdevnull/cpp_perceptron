@@ -96,12 +96,24 @@ int main(int argc, char* argv[]) {
             } else {
                 std::vector<std::string> filenames_tr = {"testing-samples/a.txt","testing-samples/e.txt","testing-samples/i.txt","testing-samples/o.txt","testing-samples/u.txt"}; 
                 std::vector<std::vector<std::vector<double>>> vec_tr = read_testing_files(filenames_tr); 
+		int successes = 0;
+		int attempts = 0;
+		double accuracy;
                 for(auto labeledV : vec_tr) {
-                    std::cout << "\nSample " << i+1  << "\n";
-                    std::cout << "Label for this output: " << interpret_index(find_max_index(labeledV.at(1))) << "\n"; 
-                    std::cout << "Network thinks this is an: : " << interpret_index(find_max_index(nn.predict(labeledV.at(0)))) << "\n";
-                    i++;	    
+		    std::string label = 
+ interpret_index(find_max_index(labeledV.at(1)));                   std::cout << "\nSample " << i+1  << "\n";
+                    std::cout << "Label for this output: " << label  << "\n"; 
+		    std::string outLabel =interpret_index(find_max_index(nn.predict(labeledV.at(0))));
+                    std::cout << "Network thinks this is an: : " <<outLabel << "\n";
+                    attempts++;
+		    if (label == outLabel) {
+			successes++;
+		    }
+		    i++;
+
                 }
+		accuracy = ((double)successes/attempts)*100;
+		std::cout << accuracy << "% accuracy (" << successes << " out of " << attempts << " attempts)" << "\n"; 
             }
         } else {
             std::cout << "No valid CLI arguments were found. Please pass either of the following arguments when running the program:\n\ntrain {0-9}*\ntest\n";

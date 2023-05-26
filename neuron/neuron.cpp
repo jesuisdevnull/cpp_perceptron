@@ -57,13 +57,15 @@ class Neuron {
 //                std::cout << "Input " << i << " for weight " << i+1 <<": " << input << "\n"; 
   //              std::cout << "Final multiplication: " << learningTimesError  << "*" << input << "\n";
     //            std::cout << "Delta weight for weight " << i+1 << ": " << individualWeightDifference << "\n\n";           
-                deltaWeights.push_back(individualWeightDifference);
+               deltaWeights.push_back(individualWeightDifference);
 		i++;
             }
             //std::cout << "Delta weight matrix for neuron " << i <<":\n";
             //printVector(deltaWeights); 
             adjustWeights(deltaWeights);
-        }
+            double deltaBias = error * learningRate;
+	    bias += deltaBias;
+	}
 
         std::string getSerializableRepresentation() {
 		std::string rep;
