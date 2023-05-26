@@ -1,3 +1,5 @@
+/* Jesus Raziel Gonzalez Sosa, C.I. 28.074.361  */
+
 #include "vector-operations/vector-operations.hpp"
 #include "network/network.cpp"
 #include "utils/utils.hpp"
@@ -13,6 +15,7 @@
 #include <algorithm>
 #include <stdexcept>
 
+/* Check whether the given string is a positive.iinteger.  */
 bool is_number(const std::string& s)
 {
     std::string::const_iterator it = s.begin();
@@ -30,7 +33,6 @@ int main(int argc, char* argv[]) {
         base.open("base.txt");
         if (base.is_open()) {
             base.close();
-            std::cout << "Found knowledge base! Attempting to load." << "\n";
             try {
                 nnp = read_knowledge_base("base.txt");
             } catch (const std::runtime_error& e) {
@@ -118,12 +120,12 @@ int main(int argc, char* argv[]) {
         } else if (strcmp(argv[1],"help") == 0){ 
 	    std::cout << "The program creates a new neural network at startup. If it can find a 'base.txt' file in the same directory where it is run, it will attempt to load it, otherwise it will generate a new one from scratch. \n\nRunning the program with the 'train' argument causes the neural network to loop over and learn from the training set as many times as specified in the second argument (minimum 0, which causes it to loop over it 1 time)\n\nRunning it with the test argument has different behavior depending on whether the third argument (a filepath) is supplied. If none is given, the neural network will attempt to classify the entire training set, whole if it is it will attempt to classify a single letter contained in the filepath given. Formatting info for both the letter and knowledge base can be found in the documentation.\n\nFile locatons relative to the executable:\n\nTraining samples: ./training-samples \nTesting samples: ./testing-samples\nKnowledge base: ./base.txt\n\n"; 
 	} else  {
-            std::cout << "No valid CLI arguments were found. Please pass either of the following arguments when running the program:\n\ntrain {0-9}*\ntest [filename]\n\nYou can run the program with the 'help' argument to get more info and usage directions.\n\n";
+            std::cout << "No valid CLI arguments were found. Please pass either of the following arguments when running the program:\n\ntrain {0-9}*\ntest [filename]\nhelp\n";
         }   
         delete(nnp);
         return 0;
     } else {
-        std::cout << "No CLI arguments were found. Please pass either of the following arguments when running the program:\n\ntrain {0-9}+\ntest [filename]\n";
+        std::cout << "No CLI arguments were found. Please pass either of the following arguments when running the program:\n\ntrain {0-9}+\ntest [filename]\nhelp\n";
         return 0;
     }
 }

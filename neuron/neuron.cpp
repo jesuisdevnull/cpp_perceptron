@@ -9,6 +9,11 @@
 
 #ifndef NEUR_H
 #define NEUR_H
+
+/* A neuron can be constructed bt either specifying the number of inputs it takes, or by manually setting all the weights and inputs. These constructors align with both scenarios in which we might create a Neural Network: either from scratch, or from an existing knowledge base.
+ 
+ Bias is initially set to 0, and is adjusted during the learning process. Each weight is initialized to a random real value within a range.*/
+
 class Neuron {
     public:
         Neuron(int numberOfInputs, std::mt19937& gen, std::uniform_real_distribution<>& dis) {
@@ -36,37 +41,29 @@ class Neuron {
         double predict(std::vector<double> inputs) {
             return activation(inputs);
         }
+
+   /* We train each neuron by using the so-called Delta rule, which states that each weight shouldbe adjusted by the product of the network's learning rate, the diffefence between the expected and actual output, and the input that corresponds tothe weight in question.
     
+    We loop over the weight vector and calculate each adjustment, pushing it into another vector.in order to update every weight all at once.
+
+    We also adjust the bias in the same way.
+*/
         void train(int neuronId, std::vector<double> inputs,double error, double learningRate) {
-            /*
-            double net = dot_product(weights, inputs);
-            std::cout << "Learning rate: " << learningRate	<< "\n";
-            std::cout << "Expected output " << expectedNeuronOutput	<< "\n";
-            std::cout << "Actual neuron output: " << actualNeuronOutput  << "\n"; 
-            std::cout << "Output difference " << outputDifference << "\n";
-            std::cout << "Net input: " << net << "\n";
-            std::cout << "Evaluated derivative: " << evaluatedDerivative << "\n";
-            */
-            double learningTimesError = learningRate * error; // * evaluatedDerivative;
+            double learningTimesError = learningRate * error;
             std::vector<double> deltaWeights;
             int i = 0;
             for (double weight:weights) {
 		double input = inputs.at(i);
 		double individualWeightDifference = learningTimesError * input;
-//                std::cout << "Calculating adjustment for weight " << i+1 << "...\n";
-//                std::cout << "Input " << i << " for weight " << i+1 <<": " << input << "\n"; 
-  //              std::cout << "Final multiplication: " << learningTimesError  << "*" << input << "\n";
-    //            std::cout << "Delta weight for weight " << i+1 << ": " << individualWeightDifference << "\n\n";           
                deltaWeights.push_back(individualWeightDifference);
 		i++;
             }
-            //std::cout << "Delta weight matrix for neuron " << i <<":\n";
-            //printVector(deltaWeights); 
             adjustWeights(deltaWeights);
             double deltaBias = error * learningRate;
 	    bias += deltaBias;
 	}
 
+	/* Essentially a string representation of the neuron.  */
         std::string getSerializableRepresentation() {
 		std::string rep;
 		rep.append(std::to_string(bias));
@@ -85,7 +82,6 @@ class Neuron {
         double activation(std::vector<double> inputs) {
             double sum_result = dot_product(weights, inputs);
             return sigmoid(sum_result + bias);
-           // return heaviside_step(sum_result);   
         }
 
         double sigmoid(double input) {
@@ -102,13 +98,5 @@ class Neuron {
         }
 
 
-        int heaviside_step(double input) {
-            if (input > 0) {
-                return 1;
-            }  
-            return 0;
-        }
-
-        
 };
 #endif
