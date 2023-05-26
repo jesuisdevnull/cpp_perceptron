@@ -9,7 +9,7 @@ Desarrolle una RNA basada en el Perceptrón Simple que permita el reconocimiento
 La entrada será un archivo contentivo del caracter fotografiado, o una matrix 16x10 que simule el caracter, a analizar.
 ```
 
-### Entrada
+### Entrada elegida
 
 Archivo de texto con 16 líneas y 16 números separados por espacios, que representen la letra a analizar.
 
@@ -34,7 +34,20 @@ Archivo de texto con 16 líneas y 16 números separados por espacios, que repres
 0 0 0 0 0 0 0 0 0 0
 ```
 
+### Compilación
+
+1. Clonar el repositorio.
+2. Dentro del directorio resultante, ejecutar uno de los siguientes comandos, dependiendo del compilador del que se disponga:
+```bash
+g++ main.cpp network/*.cpp neuron/*.cpp utils/*.cpp vector-operations/*.cpp -o nn
+```
+```bash
+clang++ main.cpp network/*.cpp neuron/*.cpp utils/*.cpp vector-operations/*.cpp -o nn
+```
+
 ### Utilización
+
+Ejecutar el archivo `nn` resultante.
 
 #### Ejecución Sencilla
 
