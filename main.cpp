@@ -62,7 +62,7 @@ int main(int argc, char* argv[]) {
                     }
                }
             }
-            std::vector<std::string> filenames = {"bit-arrays/a.txt","bit-arrays/e.txt","bit-arrays/i.txt","bit-arrays/o.txt","bit-arrays/u.txt"}; 
+            std::vector<std::string> filenames = {"training-samples/a.txt","training-samples/e.txt","training-samples/i.txt","training-samples/o.txt","training-samples/u.txt"}; 
             std::vector<std::vector<std::vector<double>>> vec = read_training_files(filenames); 
             bool process = true; 
             int j = 0;
