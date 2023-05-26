@@ -70,13 +70,13 @@ int main(int argc, char* argv[]) {
             std::random_device rd; 
             auto rng = std::default_random_engine { rd() };
     	    while(process) {
-                for (auto labeledV : vec) {
-                    i++;    
-	                std::cout << "ITERATION " << i+1 << "\n";
+                std::cout << "Beginning epoch #" << j+1 << " (iterating over " << vec.size() << " training samples)\n";
+                for (auto labeledV : vec) {   
                     std::vector<double> output = nn.predictWithTraining(labeledV.at(0), labeledV.at(1));
                 }
                 j++;
                 if(j > epochs) {
+                    std::cout << "Finished learning.\n";
                     process = false;
                 } else {
                     std::shuffle(std::begin(vec), std::end(vec), rng);   
@@ -84,34 +84,33 @@ int main(int argc, char* argv[]) {
     	    }       
     	    bool result = nn.saveKnowledge("base.txt");
     	    if (result) { 
-	            std::cout << "Saved knowledge!"  << "\n";
+	            std::cout << "Saved knowledge base."  << "\n";
     	    } else {
-	            std::cout << "Couldn't save knowledge"  << "\n";
+	            std::cout << "An error occured while trying to save the knowledge base."  << "\n";
     	    }
         } else if (strcmp(argv[1],"test") == 0) {
             if (argc > 2) { 
                 std::string filepath(argv[2]);
                 std::vector<double> input = read_individual_letter(filepath);
-                std::cout << "Network thinks this is an: : " << interpret_index(find_max_index(nn.predict(input))) << "\n";
+                std::cout << "Network's best guess for given input: " << interpret_index(find_max_index(nn.predict(input))) << "\n";
             } else {
                 std::vector<std::string> filenames_tr = {"testing-samples/a.txt","testing-samples/e.txt","testing-samples/i.txt","testing-samples/o.txt","testing-samples/u.txt"}; 
                 std::vector<std::vector<std::vector<double>>> vec_tr = read_testing_files(filenames_tr); 
 		int successes = 0;
 		int attempts = 0;
 		double accuracy;
-                for(auto labeledV : vec_tr) {
-		    std::string label = 
- interpret_index(find_max_index(labeledV.at(1)));                   std::cout << "\nSample " << i+1  << "\n";
-                    std::cout << "Label for this output: " << label  << "\n"; 
+        for(auto labeledV : vec_tr) {
+		    std::string label = interpret_index(find_max_index(labeledV.at(1)));                   
+            std::cout << "\nSample " << i+1  << "\n";
+            std::cout << "Label for this input: " << label  << "\n"; 
 		    std::string outLabel =interpret_index(find_max_index(nn.predict(labeledV.at(0))));
-                    std::cout << "Network thinks this is an: : " <<outLabel << "\n";
-                    attempts++;
+            std::cout << "Network's best guess: " << outLabel << "\n";
+            attempts++;
 		    if (label == outLabel) {
-			successes++;
+			    successes++;
 		    }
 		    i++;
-
-                }
+        }
 		accuracy = ((double)successes/attempts)*100;
 		std::cout << accuracy << "% accuracy (" << successes << " out of " << attempts << " attempts)" << "\n"; 
             }
